@@ -14,6 +14,7 @@ int main () {
   
   printf ("Nome: %s\n", Disk->nome);
   
+
   printf ("Verificando NoSetor\n") ;
     printf ("Endereco [Disk->livres->prox->inicio] %d\n", Disk->livres->prox->inicio) ;
     printf ("Endereco [Disk->livres->prox->inicio] %d\n", Disk->livres->prox->fim) ;
@@ -31,16 +32,9 @@ int main () {
   printf ("Valor [Disk->livres->prox->fim] %d\n", Disk->livres->prox->fim) ;
   */
   }
+	char teste[]= {"a.txt"};
+	printf("TESTANDO %d ", Tamanho_arquivo(teste) );
 
-  /// r ( leitura - Arq deve existir )
-  /// w ( escrita/remove )
-  /// a ( escrita/add )
-  /// + ( /leitura - combine com algum outro anterior )
-  /// b ( /binário - combine com algum outro anterior )
- 
-  char nomeArquivo[] = {"a.txt"};
-	unsigned long* SizeFile = Tamanho_arquivo(nomeArquivo);
-  printf("\nTamanho: %d \n",SizeFile);
 
 
   return 0 ;

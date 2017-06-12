@@ -33,32 +33,26 @@ Disco* disco_cria(char* nome, unsigned long tamanho);
 TipoRetorno disco_grava(Disco* d, char* nomeArquivo); //nome arquivo deve conter o caminho absoluto ou relativo do arquivo
 TipoRetorno disco_remove(Disco* d, char* nome); //somente o nome do arquivo sem o caminho
 TipoRetorno disco_recupera(Disco* d, char* nome, FILE* arquivoFisico);
-unsigned long *Tamanho_arquivo(char *nomeArquivo);
+unsigned long Tamanho_arquivo(char *nomeArquivo);
 
 ///Implementações
 
-unsigned long* Tamanho_arquivo(char* nomeArquivo) {
-  if (nomeArquivo == NULL) return(unsigned long*) -1;
-  /// r ( leitura - Arq deve existir )
-  /// w ( escrita/remove )
-  /// a ( escrita/add )
-  /// + ( /leitura - combine com algum outro anterior )
-  /// b ( /binário - combine com algum outro anterior )
-  char modo[3] = "rb";
-  //char nomeArquivo[100] = {"C:\\Users\\Daniel A\\Desktop\\APS\\arquivo_teste.jpg"};
+unsigned long Tamanho_arquivo(char* nomeArquivo) {
+   char modo[3] = "rb";
 
-  FILE* Arquivo = fopen(nomeArquivo, modo);
+  FILE* Arquivo = fopen(nomeArquivo, modo) ;
 
-  if (Arquivo == NULL) return (unsigned long*)-1;
+  //if (Arquivo == NULL) printf ("Erro!\n") ;
+ // else printf ("Arquivo aberto!\n") ;
 
   /// Calculado o tamanho do arquivo
   /// fseek(Arquivo,NumBytes,inicio) ;
   fseek(Arquivo,0,SEEK_END);
   /// int ftell(Arquivo) ; retorna a posição do ponteiro no arquivo
-  int tamArquivo = ftell(Arquivo);
+  unsigned long tamArquivo = ftell(Arquivo);
   fclose(Arquivo) ;
   
-  return (unsigned long*) tamArquivo;
+  return  tamArquivo;
 }
 
 Disco* disco_cria(char* nome, unsigned long tamanho){
@@ -84,10 +78,10 @@ Disco* disco_cria(char* nome, unsigned long tamanho){
 
 TipoRetorno disco_grava(Disco* d, char* nomeArquivo){
 	
-	unsigned long* SizeFile = Tamanho_arquivo(nomeArquivo);
-	if( *SizeFile > ( (d->tamDisco) - (d->espacoOcupado) )) return 1; //Verifica se existe espaço
-	
-	
+	//unsigned long* SizeFile = Tamanho_arquivo(nomeArquivo);
+	//printf("\n Tamanho dessa porra: %d", *SizeFile);
+	//if( *SizeFile > ( (d->tamDisco) - (d->espacoOcupado) )) return 1; //Verifica se existe espaço
+
 	
 	
 	
