@@ -11,6 +11,7 @@ typedef struct nosetor{
 
 NoSetor* criar_NoSetor();
 void adicionar_NoSetor(NoSetor* Setores, unsigned long inicio, unsigned long fim);
+void editar_NoSetor(NoSetor* Setores, unsigned long inicio, unsigned long fim);
 
 NoSetor* criar_NoSetor(){
 	
@@ -35,4 +36,12 @@ void adicionar_NoSetor(NoSetor* Setores, unsigned long inicio, unsigned long fim
   Setores->prox = Novo1;
   
 	
+}
+
+void editar_NoSetor(NoSetor* Setores, unsigned long inicio, unsigned long fim){
+
+  Setores->prox->inicio = inicio ;
+  Setores->prox->fim = fim ;
+
+
 }

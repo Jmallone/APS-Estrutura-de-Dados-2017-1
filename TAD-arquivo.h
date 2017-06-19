@@ -13,6 +13,7 @@ typedef struct noarquivo{
 }NoArquivo;
 
 NoArquivo* criar_NoArquivo();
+
 void adicionar_NoArquivo(NoArquivo* Arquivo, char* Nome, unsigned long tam);
 
 
@@ -32,8 +33,7 @@ void adicionar_NoArquivo(NoArquivo* Arquivo, char* Nome, unsigned long tam){
   strcpy(Novo1->nome, Nome);
   Novo1->tam = tam ;
 
-  Novo1->setores = criar_NoSetor();
-  //Arquivo para Gerenciar os Tamnhos que será "partido"
+  Novo1->setores = criar_NoSetor(); // cria uma sentinela já
   
   
   Novo1->ant = Arquivo->prox->ant;

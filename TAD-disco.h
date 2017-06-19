@@ -5,8 +5,6 @@
 #include"TAD-setor.h"
 #include"TAD-arquivo.h"
 
-
-
 typedef struct{
     char nome[40];
     void* disco;
@@ -17,11 +15,6 @@ typedef struct{
     unsigned long espacoOcupado;
     unsigned long qtdeArquivos;
 }Disco;
-
-typedef enum{
-    FALSE = 0,
-    TRUE = 10
-}Boolean;
 
 typedef enum{
     SUCESSO = 0,
@@ -38,7 +31,7 @@ unsigned long Tamanho_arquivo(char *nomeArquivo);
 ///Implementações
 
 unsigned long Tamanho_arquivo(char* nomeArquivo) {
-   char modo[3] = "rb";
+  char modo[3] = "rb";
 
   FILE* Arquivo = fopen(nomeArquivo, modo) ;
 
@@ -56,6 +49,7 @@ unsigned long Tamanho_arquivo(char* nomeArquivo) {
 }
 
 Disco* disco_cria(char* nome, unsigned long tamanho){
+
   Disco *d = (Disco*)malloc(sizeof(Disco));
   
 
@@ -63,9 +57,10 @@ Disco* disco_cria(char* nome, unsigned long tamanho){
 
   d->livres = criar_NoSetor();//Ja cria a Sentinela
   
-  adicionar_NoSetor(d->livres, 0, tamanho);//vereficar se tem que colocar tamanho-1
+  adicionar_NoSetor(d->livres, 0, tamanho);//Adiciona o Tamanho livre 
 
   d->arquivos = criar_NoArquivo();
+   strcpy(d->arquivos->nome, "Sentinela");
 
   d->tamDisco = d->espacoLivre = tamanho ;
   
@@ -77,15 +72,53 @@ Disco* disco_cria(char* nome, unsigned long tamanho){
 }
 
 TipoRetorno disco_grava(Disco* d, char* nomeArquivo){
-	
-	//unsigned long* SizeFile = Tamanho_arquivo(nomeArquivo);
-	//printf("\n Tamanho dessa porra: %d", *SizeFile);
-	//if( *SizeFile > ( (d->tamDisco) - (d->espacoOcupado) )) return 1; //Verifica se existe espaço
+	 
+   unsigned long tamRes = 0;
+   int tmp = 1 ;
 
-	
-	
-	
-	
+
+	unsigned long SizeFile = Tamanho_arquivo(nomeArquivo);
+	// printf("\n Tamanho dessa porra: %d \n", SizeFile);
+	if( SizeFile > ( (d->tamDisco) - (d->espacoOcupado) )) return ESPACO_INSUFICIENTE; //Verifica se existe espaço
+
+  adicionar_NoArquivo(d->arquivos, nomeArquivo, SizeFile); //Cria uma struct Arquivo e Aloca dentro de Arquivos
+
+  while(tmp){
+
+    adicionar_NoSetor(d->arquivos->prox->setores, 0, 0); // cria um nó em setores no Arquivos
+    editar_NoSetor(d->arquivos->prox->setores, d->livres->prox->inicio, 0); // editar o nó de acordo com o diagrama
+
+
+    if (d->arquivos->prox->setores->prox->prox == d->arquivos->prox->setores){ // Verifica se tem nó no setores
+      
+      printf("  NAO TEM NO \n");
+      tamRes = SizeFile;
+
+    }else{
+      
+      printf(" TEM NO \n");
+
+
+    }
+
+    if( ((d->livres->prox->fim) - (d->livres->prox->inicio)) >= tamRes ){ // Verifica se o nó que esta no livres tem espaço suficiente para alocar os bits
+      
+      editar_NoSetor(d->arquivos->prox->setores, d->arquivos->prox->setores->prox->inicio, (d->arquivos->prox->setores->prox->inicio)+tamRes);
+
+      tmp = 0;
+    }else{
+
+    }
+    tmp = 0;
+
+  } 
+
+
+
+
+
+  return SUCESSO;
+
 }
 
 
