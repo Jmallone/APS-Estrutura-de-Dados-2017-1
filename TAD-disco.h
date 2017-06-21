@@ -73,12 +73,11 @@ Disco* disco_cria(char* nome, unsigned long tamanho){
 
 TipoRetorno disco_grava(Disco* d, char* nomeArquivo){
 	 
-   unsigned long tamRes = 0;
-   int tmp = 1 ;
-
+  unsigned long tamRes = 0;
+  int tmp = 1 ;
 
 	unsigned long SizeFile = Tamanho_arquivo(nomeArquivo);
-	 printf("\n Tamanho dessa porra: %d \n", SizeFile);
+	//printf("\n Tamanho dessa porra: %d \n", SizeFile);
 
   FILE* Arquivo = fopen(nomeArquivo, "rb") ;
 
@@ -125,7 +124,7 @@ TipoRetorno disco_grava(Disco* d, char* nomeArquivo){
     }
 
   } 
-
+  fclose(Arquivo);
   return SUCESSO;
 }
 

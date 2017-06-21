@@ -53,6 +53,7 @@ void apagar_NoSetor(NoSetor* Setores){
   free(Aux);
 }
 
+/* Usado Pelo Programador para DEBUG -NO OFFICIAL-*/
 void ver_NoSetor(NoSetor* Setores){
   NoSetor *Aux = Setores->prox;
 
