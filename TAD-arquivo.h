@@ -13,8 +13,8 @@ typedef struct noarquivo{
 }NoArquivo;
 
 NoArquivo* criar_NoArquivo();
-
 void adicionar_NoArquivo(NoArquivo* Arquivo, char* Nome, unsigned long tam);
+NoArquivo* procurar_NoArquivo(NoArquivo* Arquivo, char* Nome);
 
 
 NoArquivo* criar_NoArquivo(){
@@ -35,11 +35,22 @@ void adicionar_NoArquivo(NoArquivo* Arquivo, char* Nome, unsigned long tam){
 
   Novo1->setores = criar_NoSetor(); // cria uma sentinela já
   
-  
   Novo1->ant = Arquivo->prox->ant;
   Novo1->prox = Arquivo->prox;
   Arquivo->prox->ant = Novo1;
   Arquivo->prox = Novo1;
-  
 	
+}
+
+NoArquivo* procurar_NoArquivo(NoArquivo* Arquivo, char* Nome){
+  NoArquivo* aux = Arquivo->prox;
+
+  while(strcmp (aux->nome,Nome) != 0){
+
+    aux = aux->prox;
+
+  }
+
+  return aux;
+
 }

@@ -53,6 +53,9 @@ Disco* disco_cria(char* nome, unsigned long tamanho){
   
   adicionar_NoSetor(d->livres, 0, tamanho);//Adiciona o Tamanho livre 
 
+  //adicionar_NoSetor(d->livres, 0, 4);//Adiciona o Tamanho livre 
+  //adicionar_NoSetor(d->livres, 6, 10);//Adiciona o Tamanho livre 
+
 
 
 
@@ -87,7 +90,6 @@ TipoRetorno disco_grava(Disco* d, char* nomeArquivo){
   tamRes = SizeFile;
 
   while(tmp){
-
     adicionar_NoSetor(d->arquivos->prox->setores, 0, 0); // cria um nó em setores no Arquivos
     editar_NoSetor(d->arquivos->prox->setores, d->livres->prox->inicio, 0); // editar o nó de acordo com o diagrama
 
@@ -98,9 +100,11 @@ TipoRetorno disco_grava(Disco* d, char* nomeArquivo){
       if(d->livres->prox->inicio == d->arquivos->prox->setores->prox->inicio ){ // Verificar se é um Nó no Livre que ainda esta 'virgem'
         
         d->livres->prox->inicio = d->arquivos->prox->setores->prox->fim;
-       
+
         if(d->livres->prox->inicio == d->livres->prox->fim){// veririca se a capacidade do nó nao esta cheia
             /* Apagar Nó no Livre, fazer essa função*/
+
+
           apagar_NoSetor(d->livres);
         }
 
@@ -113,8 +117,10 @@ TipoRetorno disco_grava(Disco* d, char* nomeArquivo){
     }else{
 
       d->arquivos->prox->setores->prox->fim = d->livres->prox->fim;
-      fread(d->disco+(d->arquivos->prox->setores->prox->inicio), (d->arquivos->prox->setores->prox->fim)-(d->arquivos->prox->setores->prox->inicio), 1, Arquivo);
       apagar_NoSetor(d->livres);
+      tamRes = tamRes - ( d->arquivos->prox->setores->prox->fim - d->arquivos->prox->setores->prox->inicio );
+      fread(d->disco+(d->arquivos->prox->setores->prox->inicio), (d->arquivos->prox->setores->prox->fim)-(d->arquivos->prox->setores->prox->inicio), 1, Arquivo);
+      
       
     }
 
@@ -124,19 +130,14 @@ TipoRetorno disco_grava(Disco* d, char* nomeArquivo){
 }
 
 TipoRetorno disco_recupera(Disco* d, char* nome, FILE* arquivoFisico){
+    
+  NoArquivo* auxArq = procurar_NoArquivo(d->arquivos, nome);
 
-  NoSetor *Aux = d->arquivos->prox->setores->ant;
+  NoSetor *AuxNo = auxArq->setores->ant;
 
-  while(!(d->arquivos->prox->setores->prox == d->arquivos->prox->setores)){
-
-    fwrite(d->disco+(d->arquivos->prox->setores->ant->inicio), (d->arquivos->prox->setores->ant->fim)-(d->arquivos->prox->setores->ant->inicio), 1, arquivoFisico);
-
-    Aux->ant->prox = d->arquivos->prox->setores;
-    d->arquivos->prox->setores->ant = Aux->ant;
-    free(Aux);
-    Aux = d->arquivos->prox->setores->ant;
-
+  while(!(AuxNo == auxArq->setores)){
+    fwrite(d->disco+(AuxNo->inicio), (AuxNo->fim)-(AuxNo->inicio), 1, arquivoFisico);
+    AuxNo = AuxNo->ant;
   }
-
   return SUCESSO;
 }

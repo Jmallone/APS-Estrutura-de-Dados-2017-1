@@ -53,3 +53,12 @@ void apagar_NoSetor(NoSetor* Setores){
   free(Aux);
 }
 
+void ver_NoSetor(NoSetor* Setores){
+  NoSetor *Aux = Setores->prox;
+
+  while( !(Aux == Setores) ){
+    printf(" [ %d, %d ],", Aux->inicio, Aux->fim);
+    Aux = Aux->prox;
+  }
+ 
+}

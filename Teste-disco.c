@@ -7,31 +7,20 @@
 int main () {
   int k = 1 ;
   //Disco* Disk = disco_cria("Disco C", pow(1024,3)*k) ; /// 1:kB 2:MB 3:GB
-  Disco* Disk = disco_cria("Disco C", 10) ; /// 1:kB 2:MB 3:GB
+  Disco* Disk = disco_cria("Disco C", 15) ; /// 1:kB 2:MB 3:GB
   /// Nao colocar o expoente maior que 3, mude a constante k ;
 
-
+  char teste_a[]= {"a.txt"};
+  char teste_b[]= {"b.txt"};
+	char teste_c[]= {"c.txt"};
   
-  printf ("Nome: %s\n", Disk->nome);
-
-/*  printf ("Verificando NoSetor\n") ;
-
-  printf ("Endereco [sentinela] %d\n", Disk->livres->inicio) ;
-  printf ("Endereco [Sentinela] %d\n", Disk->livres->fim) ;
-
-  printf ("Endereco [0] %d\n", Disk->livres->prox->inicio) ; 
-  printf ("Endereco [0] %d\n", Disk->livres->prox->fim) ;
-  //
-  printf ("Endereco [1] %d\n", Disk->livres->prox->prox->inicio) ;
-  printf ("Endereco [1] %d\n", Disk->livres->prox->prox->fim) ;
-  //
-  printf ("Endereco [Final] %d\n", Disk->livres->ant->inicio) ;
-  printf ("Endereco [Final] %d\n", Disk->livres->ant->fim) ;*/
-
-	char teste[]= {"a.txt"};
-  
-
-  printf("\n Disco Grava Retorno: %d \n ", disco_grava(Disk, teste) );
+  /* --INICIO: DEBUG PROGRAMADOR*/
+  printf("\nVerificando LIVRE: \n");
+  ver_NoSetor(Disk->livres);
+  printf ("\nNome: %s\n", Disk->nome);
+  printf("\n Disco Grava Retorno: %d \n ", disco_grava(Disk, teste_a) );
+  printf("\n Disco Grava Retorno2: %d \n ", disco_grava(Disk, teste_b) );
+  printf("\n Disco Grava Retorno2: %d \n ", disco_grava(Disk, teste_c) );
 
   printf("\n Nome do Arquivo [ %s ] \n ",Disk->arquivos->nome );
   printf("\n Nome do Arquivo_Prox [ %s ] \n ",Disk->arquivos->prox->nome );
@@ -39,24 +28,26 @@ int main () {
 
   printf("\n");
 
-  printf ("Verificando NoSetorLIVRE\n") ;
+  printf("\nVerificando LIVRE: \n");
+  ver_NoSetor(Disk->livres);
+  /* --FINAL: DEBUG PROGRAMADOR*/
 
-  printf ("Endereco [sentinela] %d\n", Disk->livres->inicio) ;
-  printf ("Endereco [Sentinela] %d\n", Disk->livres->fim) ;
+  FILE* Arquivo= fopen("out.txt", "w+b");
 
-  printf ("Endereco [0] %d\n", Disk->livres->prox->inicio) ; 
-  printf ("Endereco [0] %d\n", Disk->livres->prox->fim) ;
-  //
-  printf ("Endereco [1] %d\n", Disk->livres->prox->prox->inicio) ;
-  printf ("Endereco [1] %d\n", Disk->livres->prox->prox->fim) ;
-  //
-  printf ("Endereco [Final] %d\n", Disk->livres->ant->inicio) ;
-  printf ("Endereco [Final] %d\n", Disk->livres->ant->fim) ;
 
-  FILE* Arquivo = fopen("seven.txt", "w+b");
 
-  disco_recupera(Disk,"a",Arquivo);
+  /* --INICIO: DEBUG PROGRAMADOR*/
+  char escolha[10];
+    Arquivo= fopen("out.txt", "w+b");
+    printf("\n\nDeseja saber os Nos de qual Arquivo & recuperalos (out.txt)?: \n");
+    scanf("%s", &escolha);
+    system("cls");
+    printf("\nNos do Arquivo: [%s] \n",escolha);
+    ver_NoSetor(procurar_NoArquivo(Disk->arquivos, escolha)->setores);
+    disco_recupera(Disk,escolha,Arquivo); // Recuperar o Arquivo e Escrever no FILE
 
+    fclose(Arquivo);
+  /* --FINAL: DEBUG PROGRAMADOR*/
 
 }
 
