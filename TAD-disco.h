@@ -34,15 +34,9 @@ unsigned long Tamanho_arquivo(char* nomeArquivo) {
   char modo[3] = "rb";
 
   FILE* Arquivo = fopen(nomeArquivo, modo) ;
-
-  //if (Arquivo == NULL) printf ("Erro!\n") ;
- // else printf ("Arquivo aberto!\n") ;
-
-  /// Calculado o tamanho do arquivo
-  /// fseek(Arquivo,NumBytes,inicio) ;
   fseek(Arquivo,0,SEEK_END);
-  /// int ftell(Arquivo) ; retorna a posição do ponteiro no arquivo
   unsigned long tamArquivo = ftell(Arquivo);
+  fseek(Arquivo,0,SEEK_SET); // * usando isso caso o ponteiro fique no final do arquivo. ai retorna para o inicio testar
   fclose(Arquivo) ;
   
   return  tamArquivo;
@@ -58,6 +52,9 @@ Disco* disco_cria(char* nome, unsigned long tamanho){
   d->livres = criar_NoSetor();//Ja cria a Sentinela
   
   adicionar_NoSetor(d->livres, 0, tamanho);//Adiciona o Tamanho livre 
+
+
+
 
   d->arquivos = criar_NoArquivo();
    strcpy(d->arquivos->nome, "Sentinela");
@@ -78,47 +75,68 @@ TipoRetorno disco_grava(Disco* d, char* nomeArquivo){
 
 
 	unsigned long SizeFile = Tamanho_arquivo(nomeArquivo);
-	// printf("\n Tamanho dessa porra: %d \n", SizeFile);
+	 printf("\n Tamanho dessa porra: %d \n", SizeFile);
+
+  FILE* Arquivo = fopen(nomeArquivo, "rb") ;
+
+
 	if( SizeFile > ( (d->tamDisco) - (d->espacoOcupado) )) return ESPACO_INSUFICIENTE; //Verifica se existe espaço
 
   adicionar_NoArquivo(d->arquivos, nomeArquivo, SizeFile); //Cria uma struct Arquivo e Aloca dentro de Arquivos
+
+  tamRes = SizeFile;
 
   while(tmp){
 
     adicionar_NoSetor(d->arquivos->prox->setores, 0, 0); // cria um nó em setores no Arquivos
     editar_NoSetor(d->arquivos->prox->setores, d->livres->prox->inicio, 0); // editar o nó de acordo com o diagrama
 
-
-    if (d->arquivos->prox->setores->prox->prox == d->arquivos->prox->setores){ // Verifica se tem nó no setores
-      
-      printf("  NAO TEM NO \n");
-      tamRes = SizeFile;
-
-    }else{
-      
-      printf(" TEM NO \n");
-
-
-    }
-
     if( ((d->livres->prox->fim) - (d->livres->prox->inicio)) >= tamRes ){ // Verifica se o nó que esta no livres tem espaço suficiente para alocar os bits
       
       editar_NoSetor(d->arquivos->prox->setores, d->arquivos->prox->setores->prox->inicio, (d->arquivos->prox->setores->prox->inicio)+tamRes);
 
+      if(d->livres->prox->inicio == d->arquivos->prox->setores->prox->inicio ){ // Verificar se é um Nó no Livre que ainda esta 'virgem'
+        
+        d->livres->prox->inicio = d->arquivos->prox->setores->prox->fim;
+       
+        if(d->livres->prox->inicio == d->livres->prox->fim){// veririca se a capacidade do nó nao esta cheia
+            /* Apagar Nó no Livre, fazer essa função*/
+          apagar_NoSetor(d->livres);
+        }
+
+      }
+
+      fread(d->disco+(d->arquivos->prox->setores->prox->inicio), (d->arquivos->prox->setores->prox->fim)-(d->arquivos->prox->setores->prox->inicio), 1, Arquivo);
+      d->espacoLivre = d->espacoLivre - SizeFile;
       tmp = 0;
+      
     }else{
 
+      d->arquivos->prox->setores->prox->fim = d->livres->prox->fim;
+      fread(d->disco+(d->arquivos->prox->setores->prox->inicio), (d->arquivos->prox->setores->prox->fim)-(d->arquivos->prox->setores->prox->inicio), 1, Arquivo);
+      apagar_NoSetor(d->livres);
+      
     }
-    tmp = 0;
 
   } 
 
-
-
-
-
   return SUCESSO;
-
 }
 
+TipoRetorno disco_recupera(Disco* d, char* nome, FILE* arquivoFisico){
 
+  NoSetor *Aux = d->arquivos->prox->setores->ant;
+
+  while(!(d->arquivos->prox->setores->prox == d->arquivos->prox->setores)){
+
+    fwrite(d->disco+(d->arquivos->prox->setores->ant->inicio), (d->arquivos->prox->setores->ant->fim)-(d->arquivos->prox->setores->ant->inicio), 1, arquivoFisico);
+
+    Aux->ant->prox = d->arquivos->prox->setores;
+    d->arquivos->prox->setores->ant = Aux->ant;
+    free(Aux);
+    Aux = d->arquivos->prox->setores->ant;
+
+  }
+
+  return SUCESSO;
+}

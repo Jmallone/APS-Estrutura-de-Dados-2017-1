@@ -12,8 +12,9 @@ typedef struct nosetor{
 NoSetor* criar_NoSetor();
 void adicionar_NoSetor(NoSetor* Setores, unsigned long inicio, unsigned long fim);
 void editar_NoSetor(NoSetor* Setores, unsigned long inicio, unsigned long fim);
+void apagar_NoSetor(NoSetor* Setores);
 
-NoSetor* criar_NoSetor(){
+NoSetor* criar_NoSetor(){ //Sentinela
 	
 	NoSetor* s = (NoSetor*)malloc(sizeof(NoSetor));
 	s->prox = s;
@@ -43,5 +44,12 @@ void editar_NoSetor(NoSetor* Setores, unsigned long inicio, unsigned long fim){
   Setores->prox->inicio = inicio ;
   Setores->prox->fim = fim ;
 
-
 }
+
+void apagar_NoSetor(NoSetor* Setores){
+  NoSetor *Aux = Setores->prox;
+  Setores->prox->prox->ant = Setores->prox->ant; 
+  Setores->prox = Setores->prox->prox;
+  free(Aux);
+}
+
