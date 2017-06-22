@@ -111,7 +111,7 @@ TipoRetorno disco_grava(Disco* d, char* nomeArquivo){
 
       fread(d->disco+(d->arquivos->prox->setores->prox->inicio), (d->arquivos->prox->setores->prox->fim)-(d->arquivos->prox->setores->prox->inicio), 1, Arquivo);
       d->espacoLivre = d->espacoLivre - SizeFile;
-      d->qtdeArquivos = d->qtdeArquivos;
+      d->qtdeArquivos = d->qtdeArquivos + 1 ;
       tmp = 0;
       
     }else{
@@ -133,12 +133,15 @@ TipoRetorno disco_recupera(Disco* d, char* nome, FILE* arquivoFisico){
     
   NoArquivo* auxArq = procurar_NoArquivo(d->arquivos, nome);
 
+ 
   NoSetor *AuxNo = auxArq->setores->ant;
 
   while(!(AuxNo == auxArq->setores)){
     fwrite(d->disco+(AuxNo->inicio), (AuxNo->fim)-(AuxNo->inicio), 1, arquivoFisico);
     AuxNo = AuxNo->ant;
   }
+  fclose(arquivoFisico);
+
   return SUCESSO;
 }
 
@@ -154,6 +157,7 @@ TipoRetorno disco_remove(Disco* d, char* nome){
 
   d->espacoLivre = d->espacoLivre + (auxArq->tam);
   apagar_NoArquivo(auxArq->ant);
+  d->qtdeArquivos = d->qtdeArquivos - 1;
   return SUCESSO;
 
 }

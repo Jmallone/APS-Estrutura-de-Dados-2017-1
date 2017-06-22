@@ -29,7 +29,7 @@ int main () {
   //printf("\n Retorno ARQ[%s]: %d \n ",teste_d, disco_grava(Disk, teste_d) );
 
   printf("\nTAM DISCO LIVRE: %d \n",Disk->espacoLivre );
-   disco_remove(Disk, "c.txt" );
+   disco_remove(Disk, "a.txt" );
    disco_remove(Disk, "b.txt" );
   printf("\nTAM DISCO LIVRE: %d \n",Disk->espacoLivre );
 

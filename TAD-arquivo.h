@@ -45,8 +45,8 @@ void adicionar_NoArquivo(NoArquivo* Arquivo, char* Nome, unsigned long tam){
 NoArquivo* procurar_NoArquivo(NoArquivo* Arquivo, char* Nome){
   NoArquivo* aux = Arquivo->prox;
 
-  while(strcmp (aux->nome,Nome) != 0){
-
+  while( (strcmp (aux->nome,Nome)) != 0){
+       printf("TETSE");
     aux = aux->prox;
 
   }
@@ -60,4 +60,15 @@ void apagar_NoArquivo(NoArquivo* Arquivo){
   Arquivo->prox->prox->ant = Arquivo->prox->ant; 
   Arquivo->prox = Arquivo->prox->prox;
   free(Aux);
+}
+
+/* Usado Pelo Programador para DEBUG -NO OFFICIAL-*/
+void ver_NoArquivo(NoArquivo* Arquivo){
+  NoArquivo *Aux = Arquivo->prox;
+
+  while( !(Aux == Arquivo) ){
+    printf(" [ %s ],", Aux->nome);
+    Aux = Aux->prox;
+  }
+ 
 }
