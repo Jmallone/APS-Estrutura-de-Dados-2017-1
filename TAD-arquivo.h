@@ -45,10 +45,11 @@ void adicionar_NoArquivo(NoArquivo* Arquivo, char* Nome, unsigned long tam){
 NoArquivo* procurar_NoArquivo(NoArquivo* Arquivo, char* Nome){
   NoArquivo* aux = Arquivo->prox;
 
-  while( (strcmp (aux->nome,Nome)) != 0){
-       printf("LOOP");
-    aux = aux->prox;
-
+  while( (strcmp (aux->nome,Nome)) != 0 ){
+      printf("LOOP");
+      aux = aux->prox;
+      
+      if(aux == Arquivo) return NULL;
   }
 
   return aux;

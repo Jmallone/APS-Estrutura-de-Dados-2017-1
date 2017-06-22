@@ -24,9 +24,9 @@ void arquivo_recuperar(Disco* Disk){
     scanf("%s", &escolha_save);
 
     FILE* Arquivo= fopen(escolha_save, "w+b");
-    disco_recupera(Disk,escolha,Arquivo); // Recuperar o Arquivo e Escrever no FILE
+    printf("\n Retorno ARQ = %d \n", disco_recupera(Disk,escolha,Arquivo)); // Recuperar o Arquivo e Escrever no FILE
 
-    fclose(Arquivo);
+    //fclose(Arquivo);
 
 }
 
@@ -85,7 +85,7 @@ void disco_estatistica(Disco* Disk){
 
 int main () {
 
-  Disco* Disk = disco_cria("Disco C", 902094) ; /// 219086 902094
+  Disco* Disk = disco_cria("Disco C", 20) ; /// 219086 902094
 
   int escolha = 0;
   int rodando = 1;

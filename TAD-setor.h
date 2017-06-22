@@ -66,7 +66,7 @@ void ver_NoSetor(NoSetor* Setores){
 }
 
 NoSetor* setorTolivre(NoSetor* au2, NoSetor* au){
-  NoSetor* aux2 = au2;
+  NoSetor* aux2 = au2->prox;
   NoSetor* aux = au;
   NoSetor* auxReturn = aux->ant;
 
@@ -81,17 +81,15 @@ NoSetor* setorTolivre(NoSetor* au2, NoSetor* au){
   aux2->ant->prox = aux;
   aux2->ant = aux;
 
-  if(aux->ant->fim == aux->inicio){
-
+  if(aux->ant->fim == aux->inicio && !(aux->ant == au2) ){
+    
     aux->inicio = aux->ant->inicio;
     apagar_NoSetor(aux->ant->ant);
   }
 
-  if(aux->prox->inicio == aux->fim){
+  if(aux->prox->inicio == aux->fim && !(aux->prox == au2)){ //Verifica se nao esta Olhando o Sentinela
     aux->fim = aux->prox->fim;
     apagar_NoSetor(aux);
-
-   
 
   }
   return auxReturn;
