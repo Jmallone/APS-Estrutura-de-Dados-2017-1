@@ -7,7 +7,8 @@
 int main () {
   int k = 1 ;
   //Disco* Disk = disco_cria("Disco C", pow(1024,3)*k) ; /// 1:kB 2:MB 3:GB
-  Disco* Disk = disco_cria("Disco C", 219086) ; /// 1:kB 2:MB 3:GB
+  //Disco* Disk = disco_cria("Disco C", 219086) ; /// 1:kB 2:MB 3:GB
+  Disco* Disk = disco_cria("Disco C", 15) ; /// 1:kB 2:MB 3:GB
   /// Nao colocar o expoente maior que 3, mude a constante k ;
 
   char teste_a[]= {"a.txt"};
@@ -18,13 +19,18 @@ int main () {
   /* --INICIO: DEBUG PROGRAMADOR*/
   printf("\nVerificando LIVRE: \n");
   ver_NoSetor(Disk->livres); 
+
+
   /* --FINAL: DEBUG PROGRAMADOR*/
 
+  
   printf ("\nNome: %s\n", Disk->nome);
   printf("\n Retorno ARQ[%s]: %d \n ",teste_a, disco_grava(Disk, teste_a) );
   printf("\n Retorno ARQ[%s]: %d \n ",teste_b, disco_grava(Disk, teste_b) );
   printf("\n Retorno ARQ[%s]: %d \n ",teste_c, disco_grava(Disk, teste_c) );
-  printf("\n Retorno ARQ[%s]: %d \n ",teste_d, disco_grava(Disk, teste_d) );
+  //printf("\n Retorno ARQ[%s]: %d \n ",teste_d, disco_grava(Disk, teste_d) );
+
+   disco_remove(Disk, "c.txt" );
 
  /* --INICIO: DEBUG PROGRAMADOR*/
   printf("\n Nome do Arquivo [ %s ] \n ",Disk->arquivos->nome );
@@ -33,14 +39,17 @@ int main () {
 
   printf("\n");
 
-  printf("\nVerificando LIVRE: \n");
+ 
+
+  printf("\nVerificando LIVRE2: \n");
   ver_NoSetor(Disk->livres);
-  /* --FINAL: DEBUG PROGRAMADOR*/
+   /*--FINAL: DEBUG PROGRAMADOR*/
 
 
 
 
-  /* --INICIO: DEBUG PROGRAMADOR*/
+  /* --INICIO: DEBUG PROGRAMADOR */
+
   char escolha[10];
   char escolha_save[10];
     printf("\n\nNos do Arquivo & Recuperalos: \n");
@@ -57,7 +66,7 @@ int main () {
     disco_recupera(Disk,escolha,Arquivo); // Recuperar o Arquivo e Escrever no FILE
 
     fclose(Arquivo);
-  /* --FINAL: DEBUG PROGRAMADOR*/
+   /*--FINAL: DEBUG PROGRAMADOR*/
 
 }
 

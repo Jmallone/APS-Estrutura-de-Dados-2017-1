@@ -54,3 +54,10 @@ NoArquivo* procurar_NoArquivo(NoArquivo* Arquivo, char* Nome){
   return aux;
 
 }
+
+void apagar_NoArquivo(NoArquivo* Arquivo){
+  NoArquivo *Aux = Arquivo->prox;
+  Arquivo->prox->prox->ant = Arquivo->prox->ant; 
+  Arquivo->prox = Arquivo->prox->prox;
+  free(Aux);
+}

@@ -13,6 +13,7 @@ NoSetor* criar_NoSetor();
 void adicionar_NoSetor(NoSetor* Setores, unsigned long inicio, unsigned long fim);
 void editar_NoSetor(NoSetor* Setores, unsigned long inicio, unsigned long fim);
 void apagar_NoSetor(NoSetor* Setores);
+NoSetor* setorTolivre(NoSetor* au2, NoSetor* au); //Deus me Perdoe
 
 NoSetor* criar_NoSetor(){ //Sentinela
 	
@@ -62,4 +63,36 @@ void ver_NoSetor(NoSetor* Setores){
     Aux = Aux->prox;
   }
  
+}
+
+NoSetor* setorTolivre(NoSetor* au2, NoSetor* au){
+  NoSetor* aux2 = au2;
+  NoSetor* aux = au;
+  NoSetor* auxReturn = aux->ant;
+
+  while( aux2->inicio < aux->inicio ){
+
+    aux2 = aux2->prox;
+
+  }
+
+  aux->prox = aux2;
+  aux->ant = aux2->ant;
+  aux2->ant->prox = aux;
+  aux2->ant = aux;
+
+  if(aux->ant->fim == aux->inicio){
+
+    aux->inicio = aux->ant->inicio;
+    apagar_NoSetor(aux->ant->ant);
+  }
+
+  if(aux->prox->inicio == aux->fim){
+    aux->fim = aux->prox->fim;
+    apagar_NoSetor(aux);
+
+   
+
+  }
+  return auxReturn;
 }

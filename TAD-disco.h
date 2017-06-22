@@ -53,8 +53,8 @@ Disco* disco_cria(char* nome, unsigned long tamanho){
   
   adicionar_NoSetor(d->livres, 0, tamanho);//Adiciona o Tamanho livre 
 
-  //adicionar_NoSetor(d->livres, 0, 4);//Adiciona o Tamanho livre 
-  //adicionar_NoSetor(d->livres, 6, 10);//Adiciona o Tamanho livre 
+  //adicionar_NoSetor(d->livres, 5, 10);//Adiciona o Tamanho livre 
+  //adicionar_NoSetor(d->livres, 0, 3);//Adiciona o Tamanho livre 
 
 
 
@@ -139,4 +139,19 @@ TipoRetorno disco_recupera(Disco* d, char* nome, FILE* arquivoFisico){
     AuxNo = AuxNo->ant;
   }
   return SUCESSO;
+}
+
+TipoRetorno disco_remove(Disco* d, char* nome){
+
+  NoArquivo* auxArq = procurar_NoArquivo(d->arquivos, nome);
+
+  NoSetor *AuxNo = auxArq->setores->ant;
+  while(!(AuxNo == auxArq->setores)){
+    
+    AuxNo = setorTolivre(d->livres->prox, AuxNo);
+  }
+
+  apagar_NoArquivo(auxArq->ant);
+  return SUCESSO;
+
 }
