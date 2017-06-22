@@ -1,4 +1,4 @@
-#include<stdio.h>
+﻿#include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include"TAD-disco.h"
@@ -6,7 +6,7 @@
 
 void arquivo_adicionar(Disco* Disk){
 
-  char escolha[10];
+  char escolha[50];
   printf("\n\nQual arquivo quer Adicionar em Disco: \n");
   scanf("%s", &escolha);
   printf("\n Retorno ARQ[%s]: %d \n ",escolha, disco_grava(Disk, escolha) );
@@ -15,8 +15,8 @@ void arquivo_adicionar(Disco* Disk){
 
 void arquivo_recuperar(Disco* Disk){
 
-  char escolha[10];
-  char escolha_save[10];
+  char escolha[50];
+  char escolha_save[50];
     printf("\n\nQual Arquivo Recuperar: \n");
     scanf("%s", &escolha);
 
@@ -132,7 +132,7 @@ int main () {
         rodando = 0;
       break;
     default:
-      // Code
+        printf("\n ESCOLHA UMA OPCAO VALIDA! \n");
       break;
     }
 

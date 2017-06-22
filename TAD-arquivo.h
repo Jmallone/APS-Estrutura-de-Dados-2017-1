@@ -46,7 +46,7 @@ NoArquivo* procurar_NoArquivo(NoArquivo* Arquivo, char* Nome){
   NoArquivo* aux = Arquivo->prox;
 
   while( (strcmp (aux->nome,Nome)) != 0){
-       printf("TETSE");
+       printf("LOOP");
     aux = aux->prox;
 
   }
