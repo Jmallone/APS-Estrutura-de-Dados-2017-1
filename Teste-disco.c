@@ -19,8 +19,6 @@ int main () {
   /* --INICIO: DEBUG PROGRAMADOR*/
   printf("\nVerificando LIVRE: \n");
   ver_NoSetor(Disk->livres); 
-
-
   /* --FINAL: DEBUG PROGRAMADOR*/
 
   
@@ -30,12 +28,16 @@ int main () {
   printf("\n Retorno ARQ[%s]: %d \n ",teste_c, disco_grava(Disk, teste_c) );
   //printf("\n Retorno ARQ[%s]: %d \n ",teste_d, disco_grava(Disk, teste_d) );
 
+  printf("\nTAM DISCO LIVRE: %d \n",Disk->espacoLivre );
    disco_remove(Disk, "c.txt" );
+   disco_remove(Disk, "b.txt" );
+  printf("\nTAM DISCO LIVRE: %d \n",Disk->espacoLivre );
 
  /* --INICIO: DEBUG PROGRAMADOR*/
+
+  printf("\n Nome do Arquivo_ANT [ %s ] \n ",Disk->arquivos->ant->nome );
   printf("\n Nome do Arquivo [ %s ] \n ",Disk->arquivos->nome );
   printf("\n Nome do Arquivo_Prox [ %s ] \n ",Disk->arquivos->prox->nome );
-  printf("\n Nome do Arquivo_ANT [ %s ] \n ",Disk->arquivos->ant->nome );
 
   printf("\n");
 

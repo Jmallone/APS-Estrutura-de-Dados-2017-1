@@ -39,7 +39,7 @@ unsigned long Tamanho_arquivo(char* nomeArquivo) {
   fseek(Arquivo,0,SEEK_SET); // * usando isso caso o ponteiro fique no final do arquivo. ai retorna para o inicio testar
   fclose(Arquivo) ;
   
-  return  tamArquivo;
+  return  tamArquivo; // Só passar o Parametro do nome do Arquivo
 }
 
 Disco* disco_cria(char* nome, unsigned long tamanho){
@@ -68,7 +68,7 @@ Disco* disco_cria(char* nome, unsigned long tamanho){
   
   strcpy(d->nome, nome);
 
-  return d ;
+  return d ;// Cria um Disco com um Nome e o Tamanho que voce passou 
 }
 
 TipoRetorno disco_grava(Disco* d, char* nomeArquivo){
@@ -82,7 +82,7 @@ TipoRetorno disco_grava(Disco* d, char* nomeArquivo){
   FILE* Arquivo = fopen(nomeArquivo, "rb") ;
 
 
-	if( SizeFile > ( (d->tamDisco) - (d->espacoOcupado) )) return ESPACO_INSUFICIENTE; //Verifica se existe espaço
+	if( SizeFile > ( d->espacoLivre )) return ESPACO_INSUFICIENTE; //Verifica se existe espaço
 
   adicionar_NoArquivo(d->arquivos, nomeArquivo, SizeFile); //Cria uma struct Arquivo e Aloca dentro de Arquivos
 
@@ -111,6 +111,7 @@ TipoRetorno disco_grava(Disco* d, char* nomeArquivo){
 
       fread(d->disco+(d->arquivos->prox->setores->prox->inicio), (d->arquivos->prox->setores->prox->fim)-(d->arquivos->prox->setores->prox->inicio), 1, Arquivo);
       d->espacoLivre = d->espacoLivre - SizeFile;
+      d->qtdeArquivos = d->qtdeArquivos;
       tmp = 0;
       
     }else{
@@ -151,6 +152,7 @@ TipoRetorno disco_remove(Disco* d, char* nome){
     AuxNo = setorTolivre(d->livres->prox, AuxNo);
   }
 
+  d->espacoLivre = d->espacoLivre + (auxArq->tam);
   apagar_NoArquivo(auxArq->ant);
   return SUCESSO;
 
